@@ -2,25 +2,24 @@ const express = require('express');
 
 const router = express.Router();
 
-// endpoint or route
 router.get('/add', (req, res) => {
-    res.send('Response from user add');
+    res.send('Response from product add');
 });
 
 router.get('/getall', (req, res) => {
-    res.send('response from user getall');
+    res.send('Response from product getall');
 });
 
 router.get('/getbyid', (req, res) => {
-    res.send('response from user getbyid');
+    res.send('Response from product getbyid');
 });
 
 router.get('/update', (req, res) => {
-    res.send('response from user update');
+    res.send('Response from product update');
 });
 
 router.get('/delete', (req, res) => {
-    res.send('response from user delete');
+    res.send('Response from product delete');
 });
 
 module.exports = router;

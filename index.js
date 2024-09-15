@@ -1,6 +1,7 @@
 // import express
 const express = require('express');
 const UserRouter = require('./routers/UserRouter');
+const ProductRouter = require('./routers/ProductRouter');
 
 // initialize express
 const app = express();
@@ -8,7 +9,9 @@ const app = express();
 // Assign port
 const PORT = 5000;
 
+// middleware
 app.use('/user', UserRouter);
+app.use('/product', ProductRouter);
 
 app.get('/', (req, res) => {
     res.send('response from express');
