@@ -1,9 +1,16 @@
 const express = require('express');
 
 const router = express.Router();
+const Model = require('../models/UserModel');
+
+// GET - to read data
+// POST - To read data
+// PUT - To update data
+// DELETE - To delete data
 
 // endpoint or route
-router.get('/add', (req, res) => {
+router.post('/add', (req, res) => {
+    console.log(req.body);
     res.send('Response from user add');
 });
 
