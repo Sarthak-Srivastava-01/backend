@@ -25,7 +25,11 @@ router.post('/add', (req, res) => {
             res.status(200).json(result);
         }).catch((err) => {
             console.log(err);
-            res.status(500).json(err);
+            if(err.code === 11000){
+                res.status(500).json({ message : 'Email Already Registered'});
+            } else {
+                res.status(500).json({message : 'AN error Occured'});
+            }
         });
 
     // res.send('Response from user add');
