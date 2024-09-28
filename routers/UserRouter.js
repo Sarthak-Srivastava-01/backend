@@ -3,6 +3,9 @@ const express = require('express');
 const router = express.Router();
 const Model = require('../models/UserModel');
 
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
 // GET - to read data
 // POST - To read data
 // PUT - To update data
@@ -25,10 +28,10 @@ router.post('/add', (req, res) => {
             res.status(200).json(result);
         }).catch((err) => {
             console.log(err);
-            if(err.code === 11000){
-                res.status(500).json({ message : 'Email Already Registered'});
+            if (err.code === 11000) {
+                res.status(500).json({ message: 'Email Already Registered' });
             } else {
-                res.status(500).json({message : 'AN error Occured'});
+                res.status(500).json({ message: 'AN error Occured' });
             }
         });
 
@@ -86,7 +89,7 @@ router.get('/getbyid/:id', (req, res) => {
 });
 
 router.put('/update/:id', (req, res) => {
-    Model.findByIdAndUpdate(req.params.id, req.body, {new : true})
+    Model.findByIdAndUpdate(req.params.id, req.body, { new: true })
         .then((result) => {
             res.status(200).json(result)
         }).catch((err) => {
@@ -101,6 +104,34 @@ router.delete('/delete/:id', (req, res) => {
             res.status(200).json(result);
         })
         .catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
+
+router.post('/authenticate', (req, res) => {
+    Model.findOne(res.body)
+        .then((result) => {
+            if (result) {
+                // generate token here
+                const { _id, email, name } = result;
+                jwt.sign(
+                    { _id, email, name }, // payload
+                    process.env.JWT_SECRET,
+                    { expiresIn: '1d' },
+                    (err, token) => {
+                        if (err) {
+                            console.log(err);
+                            res.status(500).json(err);
+                        } else {
+                            res.status(200).json({ token });
+                        }
+                    }
+                )
+            } else {
+                res.status(401).json({ message: 'Invalid Credentials' });
+            }
+        }).catch((err) => {
             console.log(err);
             res.status(500).json(err);
         });
