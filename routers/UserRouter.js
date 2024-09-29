@@ -4,6 +4,7 @@ const router = express.Router();
 const Model = require('../models/UserModel');
 
 const jwt = require('jsonwebtoken');
+const verifyToken = require('../middlewares/verifyToken');
 require('dotenv').config();
 
 // GET - to read data
@@ -38,7 +39,7 @@ router.post('/add', (req, res) => {
     // res.send('Response from user add');
 });
 
-router.get('/getall', (req, res) => {
+router.get('/getall', verifyToken, (req, res) => {
     Model.find()
         .then((result) => {
             res.status(200).json(result);
